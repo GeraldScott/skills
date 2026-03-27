@@ -1,24 +1,30 @@
 ---
 name: search-web
-description: "Conduct comprehensive web research and fetch up-to-date library documentation. Use when asked to research topics, investigate trends, search the web, scrape URLs, fetch web content, or when needing current documentation, code examples, API references, or setup guides for any programming library or framework. Combines web search, content extraction, Context7 documentation, and synthesis."
-allowed-tools: ["Bash", "Read", "Write"]
+description: "Search the web, research topics, fetch URLs, look up library docs, or find current information. Use when the user asks to research, search, look up, investigate, find out about, or get documentation for anything — including libraries, frameworks, APIs, trends, best practices, tutorials, or any topic requiring up-to-date information. Also use when the user provides a URL to scrape or asks about recent developments."
+allowed-tools: ["WebSearch", "WebFetch", "Read", "Write", "Bash", "mcp__context7__resolve-library-id", "mcp__context7__query-docs"]
 argument-hint: "[topic, library name, or URL]"
+context: fork
 ---
 
 # Web Research & Documentation Skill
 
 Comprehensive research combining web search, content extraction, and up-to-date library documentation via Context7.
 
-## Tools Used
+## Source Priority
 
-- **WebSearch** - Search the web for current information
-- **WebFetch** - Extract content from specific URLs as markdown
-- **mcp__context7__resolve-library-id** - Find Context7 library ID for a package
-- **mcp__context7__query-docs** - Query documentation with a specific topic
+Use the most authoritative source available, in this order:
+
+1. **Context7 docs** — most current, structured library documentation
+2. **WebFetch on official docs** — when you know the URL (e.g., official project site)
+3. **WebSearch** — general web results, community discussions, blog posts
 
 ## Known Library IDs
 
 For common library IDs (Quarkus, HTMX, PostgreSQL, etc.), see `library-ids.md` in this skill directory. Use these IDs directly to skip the resolve step.
+
+## Research Discipline
+
+**Write after searching.** Never do two search rounds in a row without capturing findings first. After each search or fetch, write key findings to your response or a scratch note before searching again. This prevents research loops and ensures nothing is lost.
 
 ---
 
