@@ -1,5 +1,5 @@
 ---
-name: researching-web
+name: search-web
 description: "Conduct comprehensive web research and fetch up-to-date library documentation. Use when asked to research topics, investigate trends, search the web, scrape URLs, fetch web content, or when needing current documentation, code examples, API references, or setup guides for any programming library or framework. Combines web search, content extraction, Context7 documentation, and synthesis."
 allowed-tools: ["Bash", "Read", "Write"]
 argument-hint: "[topic, library name, or URL]"
