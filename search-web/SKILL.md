@@ -1,7 +1,7 @@
 ---
 name: search-web
 description: "Search the web, research topics, fetch URLs, look up library docs, or find current information. Use when the user asks to research, search, look up, investigate, find out about, or get documentation for anything — including libraries, frameworks, APIs, trends, best practices, tutorials, or any topic requiring up-to-date information. Also use when the user provides a URL to scrape or asks about recent developments."
-allowed-tools: ["WebSearch", "WebFetch", "Read", "Write", "Bash", "mcp__context7__resolve-library-id", "mcp__context7__query-docs"]
+allowed-tools: ["WebSearch", "WebFetch", "Read", "Write", "mcp__context7__resolve-library-id", "mcp__context7__query-docs"]
 argument-hint: "[topic, library name, or URL]"
 context: fork
 ---
@@ -22,6 +22,10 @@ Use the most authoritative source available, in this order:
 
 For common library IDs (Quarkus, HTMX, PostgreSQL, etc.), see `library-ids.md` in this skill directory. Use these IDs directly to skip the resolve step.
 
+## Privacy — Context7 queries leave the machine
+
+Context7 query text is sent to the Upstash API. **Never include sensitive data in a `query`:** no PII (this project holds victim/perpetrator/witness data under POPIA), credentials, API keys, or proprietary source code. Phrase queries about *general library usage* ("how to enforce `@RolesAllowed` on a Quarkus REST endpoint"), never about the project's data.
+
 ## Research Discipline
 
 **Write after searching.** Never do two search rounds in a row without capturing findings first. After each search or fetch, write key findings to your response or a scratch note before searching again. This prevents research loops and ensures nothing is lost.
@@ -36,8 +40,8 @@ For common library IDs (Quarkus, HTMX, PostgreSQL, etc.), see `library-ids.md` i
 3. Synthesize findings with source citations
 
 ### Library/framework documentation
-1. Use `mcp__context7__resolve-library-id` to find the library ID (or use known ID from `library-ids.md`)
-2. Use `mcp__context7__query-docs` with the library ID and focused topic query
+1. Use `mcp__context7__resolve-library-id` to find the library ID — pass **both** `libraryName` (official name, e.g. `"Next.js"`) **and** `query` (what you're trying to do). Skip this step if the ID is already in `library-ids.md`.
+2. Use `mcp__context7__query-docs` with `libraryId` and a **specific** `query` (e.g. "set up form-based authentication with JPA", not "auth").
 3. Combine with `WebSearch` for recent updates or community discussions
 
 ### Comprehensive technical research
@@ -67,8 +71,8 @@ User: "What are the best practices for PostgreSQL indexing?"
 **Example 3: Unknown library**
 ```
 User: "How do I use Tanstack Query?"
-→ mcp__context7__resolve-library-id with libraryName="Tanstack Query"
-→ mcp__context7__query-docs with returned ID and user's topic
+→ mcp__context7__resolve-library-id with libraryName="TanStack Query", query="how to fetch and cache data with TanStack Query"
+→ mcp__context7__query-docs with returned ID and a specific query
 → Return documentation with examples
 ```
 
